@@ -1,0 +1,16 @@
+---
+description: Admin Portal React engineering rules
+alwaysApply: true
+---
+
+# Admin Portal Rules
+
+- React + TypeScript.
+- Protected routes must block unauthenticated users.
+- Navigation visibility may be permission-aware, but backend authorization remains mandatory.
+- Destructive actions require confirmation.
+- Sensitive fields/actions must respect role permissions.
+- Use reusable table/form/modal/confirmation primitives.
+- Always implement loading, empty, validation and error states.
+- Do not duplicate customer authentication behavior in the admin portal.
+- Add component/unit tests for new behavior.

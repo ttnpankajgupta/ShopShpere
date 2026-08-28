@@ -1,0 +1,35 @@
+---
+description: Git branches, worktrees and merge rules for multi-agent development
+alwaysApply: true
+---
+
+# Git and Worktree Rules
+
+## Branch naming
+Use:
+`agent/<agent-name>/<task-id>-<short-slug>`
+
+Examples:
+- `agent/backend/TASK-012-checkout-api`
+- `agent/customer/TASK-013-checkout-ui`
+
+## Worktrees
+Use an isolated worktree when two agents may modify overlapping files.
+Do not let multiple agents edit the same file concurrently.
+
+## Commits
+Use small, atomic commits:
+`feat(scope): implement <behavior>`
+`fix(scope): correct <behavior>`
+`test(scope): add coverage for <behavior>`
+`chore(scope): configure <behavior>`
+
+## Merge
+- Orchestrator reviews specialist output before integration.
+- Merge dependency order: contract -> DB -> backend -> platform -> integration -> tests/review.
+- Resolve conflicts by preserving the sprint contract and architectural rules.
+- Never force-push or rewrite another agent's branch.
+- Do not merge failing work just to unblock another task.
+
+## Shared-file lock
+The Orchestrator must record shared-file ownership in the task ledger before delegation.

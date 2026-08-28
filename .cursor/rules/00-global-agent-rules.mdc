@@ -1,0 +1,45 @@
+---
+description: Global rules for every ShopSphere agent
+alwaysApply: true
+---
+
+# ShopSphere Global Agent Rules
+
+## Source of truth
+- Treat the sprint-specific ShopSphere documents as the source of truth for scope, use cases, acceptance criteria and test cases.
+- Never invent business behavior when the sprint document defines it.
+- Respect platform separation: Backend + DB, Customer Portal and Admin Portal are separate scopes.
+
+## Architecture
+- Backend: NestJS, PostgreSQL, Prisma, Redis.
+- Customer Portal: React Native + TypeScript targeting iOS, Android and Web.
+- Admin Portal: React + TypeScript.
+- API contracts are versioned under `/api/v1`.
+- Backend is the source of truth for business rules, authorization, ownership, pricing, inventory, payment status and state transitions.
+
+## Engineering order
+For a feature:
+1. Contract
+2. Database
+3. Backend
+4. Customer/Admin platform
+5. Integration
+6. Tests
+7. Acceptance
+
+Parallelize only independent tasks.
+
+## Safety
+- Never expose secrets.
+- Never hardcode credentials.
+- Never weaken authorization to make a test pass.
+- Never bypass validation.
+- Never use client-calculated values as authoritative for price, stock, payment or refund.
+- Never introduce destructive database changes without explicit approval.
+- Never make unrelated refactors during feature work.
+
+## Quality
+- Handle loading, empty, validation, error and retry states explicitly where applicable.
+- Add or update automated tests for changed behavior.
+- Preserve existing behavior outside the assigned scope.
+- Before reporting completion, run the narrowest relevant checks and then the required sprint-level checks.

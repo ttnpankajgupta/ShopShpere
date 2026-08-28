@@ -1,0 +1,17 @@
+---
+description: PostgreSQL and Prisma rules for ShopSphere
+alwaysApply: true
+---
+
+# Database Rules
+
+- Use PostgreSQL through Prisma unless the existing repository establishes another approved pattern.
+- Every schema change must have a migration.
+- Add constraints and unique indexes for business invariants where appropriate.
+- Use transactions for multi-record state changes.
+- Protect inventory from overselling using safe transaction/locking strategy.
+- Preserve immutable snapshots where the sprint requires historical accuracy, such as order pricing.
+- Do not store raw card data.
+- Do not perform destructive migration automatically.
+- Migration names must explain the business change.
+- Test migrations on a clean database and an existing-data scenario when relevant.

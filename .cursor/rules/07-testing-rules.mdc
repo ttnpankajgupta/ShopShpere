@@ -1,0 +1,24 @@
+---
+description: Testing and acceptance rules
+alwaysApply: true
+---
+
+# Testing Rules
+
+Every feature should be tested at the lowest useful level and then at integration level.
+
+Required where applicable:
+- unit tests
+- component tests
+- API/integration tests
+- negative/error-path tests
+- authorization/ownership tests
+- state transition tests
+- idempotency/retry tests
+- migration tests
+- regression tests
+
+A task is not DONE because code compiles.
+A task is DONE only when its acceptance criteria are satisfied and relevant tests pass.
+
+QA must report exact reproduction steps for failures.

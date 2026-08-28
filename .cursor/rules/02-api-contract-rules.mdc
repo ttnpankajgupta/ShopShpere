@@ -1,0 +1,19 @@
+---
+description: API and contract rules for ShopSphere
+alwaysApply: true
+---
+
+# API Contract Rules
+
+- All feature APIs use `/api/v1`.
+- Define request/response DTOs before platform implementation.
+- Use typed success/error responses consistent with the existing API envelope.
+- Validate every externally supplied value.
+- Map backend errors to stable client-facing error codes/messages.
+- Never expose stack traces or internal exception details.
+- Authentication, authorization and ownership are enforced server-side.
+- Use correlation/request IDs.
+- Retry only operations that are safe to retry.
+- Use idempotency for operations explicitly requiring it, especially checkout/payment/shipping/refund flows.
+- Keep API changes backward-compatible unless the sprint explicitly requires a breaking change.
+- Update API documentation/OpenAPI when contracts change.

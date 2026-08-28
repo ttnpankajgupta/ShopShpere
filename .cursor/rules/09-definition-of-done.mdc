@@ -1,0 +1,28 @@
+---
+description: Definition of Done for ShopSphere tasks and sprints
+alwaysApply: true
+---
+
+# Definition of Done
+
+A task is DONE when:
+- Scope matches the assigned sprint document.
+- No out-of-scope business behavior was added.
+- Code follows project architecture.
+- API/database/platform contracts align.
+- Relevant tests pass.
+- Negative paths are covered.
+- Security/authorization requirements are verified.
+- No secrets or sensitive logs are introduced.
+- Documentation/contract changes are updated.
+- Agent reports changed files, tests, risks and remaining issues.
+
+A sprint is DONE when:
+- All assigned platform use cases pass.
+- Acceptance criteria pass.
+- All required tests pass.
+- No blocker/critical defect remains.
+- Cross-platform integration is verified.
+- QA signs off.
+- Security review signs off where applicable.
+- Orchestrator performs final acceptance against the sprint documents.

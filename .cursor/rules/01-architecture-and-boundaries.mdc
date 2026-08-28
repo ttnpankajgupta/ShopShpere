@@ -1,0 +1,63 @@
+---
+description: ShopSphere module boundaries and ownership rules
+alwaysApply: true
+---
+
+# Architecture and Boundaries
+
+## Backend ownership
+Backend owns:
+- business rules
+- authentication and authorization
+- ownership checks
+- pricing
+- inventory reservation
+- checkout validation
+- payment verification
+- order state transitions
+- return/refund rules
+- notification event processing
+- audit events
+
+## Database ownership
+Database agent owns:
+- Prisma schema
+- migrations
+- indexes
+- constraints
+- seed/test data
+- query performance at schema level
+
+Do not place business rules exclusively in the database.
+
+## Customer ownership
+Customer agent owns:
+- customer-facing React Native screens
+- navigation
+- client state
+- secure token storage abstraction
+- platform adapters
+- customer UI states
+
+Customer must consume server-authoritative values.
+
+## Admin ownership
+Admin agent owns:
+- admin React screens
+- protected routes
+- permission-aware navigation
+- operational tables/forms/modals
+- role-aware visibility
+
+Admin must never rely only on UI hiding for authorization.
+
+## Integration ownership
+Integration agent owns:
+- API client integration
+- DTO/model mapping
+- cross-platform contract alignment
+- end-to-end wiring
+
+## Shared files
+Shared contracts, generated API types, configuration and common utilities are conflict-sensitive.
+Only one agent may own a shared file at a time.

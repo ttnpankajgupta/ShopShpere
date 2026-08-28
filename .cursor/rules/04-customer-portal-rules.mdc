@@ -1,0 +1,17 @@
+---
+description: Customer Portal React Native engineering rules
+alwaysApply: true
+---
+
+# Customer Portal Rules
+
+- React Native + TypeScript; targets iOS, Android and Web.
+- TypeScript strict mode must remain enabled.
+- Follow the existing feature-module/navigation architecture.
+- Reuse shared Button/Input/Card/Loader/Empty/Error primitives.
+- Secure tokens through the token-storage abstraction only.
+- Never put secrets in the client.
+- Never trust client price, discount, stock, payment or refund values.
+- Implement loading, empty, validation, error, retry and stale-data states when relevant.
+- Keep iOS, Android and Web behavior aligned unless the sprint explicitly defines platform-specific behavior.
+- Add component/unit tests for new behavior.

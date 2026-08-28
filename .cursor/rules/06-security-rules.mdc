@@ -1,0 +1,19 @@
+---
+description: Security requirements for ShopSphere
+alwaysApply: true
+---
+
+# Security Rules
+
+- Never log passwords, OTPs, tokens, card data or sensitive personal data.
+- Hash passwords and OTPs appropriately.
+- Enforce rate limits/brute-force controls where required.
+- Rotate/revoke refresh tokens according to the authentication design.
+- Reject customer tokens on admin APIs.
+- Enforce role/permission checks server-side.
+- Validate ownership for customer resources.
+- Verify payment signatures/authenticity and prevent replay.
+- Use idempotency for retry-sensitive financial/state-changing operations.
+- Never store raw card information.
+- Protect audit logs from unauthorized modification/access.
+- Security fixes must not be weakened to satisfy UI behavior.

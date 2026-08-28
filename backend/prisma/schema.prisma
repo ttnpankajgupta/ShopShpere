@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// S0: migration metadata only — no business tables yet.
+// Prisma requires at least one model for migrations; this tracks schema version.
+model SchemaVersion {
+  id        String   @id @default(cuid())
+  version   String
+  appliedAt DateTime @default(now())
+
+  @@map("schema_versions")
+}

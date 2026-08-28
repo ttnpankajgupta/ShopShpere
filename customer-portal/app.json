@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "ShopSphere",
+    "slug": "shopsphere-customer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "shopsphere",
+    "platforms": ["ios", "android", "web"],
+    "web": {
+      "bundler": "metro"
+    },
+    "extra": {
+      "apiBaseUrl": "http://localhost:3000"
+    }
+  }
+}

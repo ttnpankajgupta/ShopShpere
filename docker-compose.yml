@@ -34,6 +34,8 @@ services:
       DATABASE_URL: postgresql://shopsphere:shopsphere@postgres:5432/shopsphere?schema=public
       REDIS_URL: redis://redis:6379
       CORS_ORIGINS: http://localhost:5173,http://localhost:8081,http://localhost:19006
+      JWT_SECRET: change-me-in-production-use-long-random-string
+      E2E_EXPOSE_OTP: "true"
     depends_on:
       postgres:
         condition: service_healthy

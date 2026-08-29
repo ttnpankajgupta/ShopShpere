@@ -61,6 +61,16 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     switch (status) {
       case HttpStatus.BAD_REQUEST:
         return 'VALIDATION_ERROR';
+      case HttpStatus.UNAUTHORIZED:
+        return 'UNAUTHORIZED';
+      case HttpStatus.FORBIDDEN:
+        return 'FORBIDDEN';
+      case HttpStatus.CONFLICT:
+        return 'CONFLICT';
+      case HttpStatus.LOCKED:
+        return 'ACCOUNT_LOCKED';
+      case HttpStatus.TOO_MANY_REQUESTS:
+        return 'RATE_LIMITED';
       case HttpStatus.SERVICE_UNAVAILABLE:
         return 'SERVICE_UNAVAILABLE';
       default:

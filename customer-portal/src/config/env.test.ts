@@ -6,12 +6,43 @@ jest.mock('expo-constants', () => ({
         apiBaseUrl: 'http://localhost:3000',
         apiTimeoutMs: 10000,
       },
+      hostUri: undefined,
     },
   },
 }));
 
+jest.mock('react-native', () => ({
+  Platform: { OS: 'web' },
+}));
+
 import Constants from 'expo-constants';
-import { getAppConfig } from '../config/env';
+import { getAppConfig, resolveApiBaseUrl } from './env';
+
+describe('resolveApiBaseUrl', () => {
+  it('keeps explicit remote URLs unchanged', () => {
+    expect(resolveApiBaseUrl('https://api.shopsphere.com')).toBe('https://api.shopsphere.com');
+  });
+
+  it('uses 10.0.2.2 on Android when localhost is configured', () => {
+    const { Platform } = jest.requireMock<{ Platform: { OS: string } }>('react-native');
+    Platform.OS = 'android';
+    expect(resolveApiBaseUrl('http://localhost:3000')).toBe('http://10.0.2.2:3000');
+    Platform.OS = 'web';
+  });
+
+  it('uses Expo dev host on device when Metro exposes LAN IP', () => {
+    const { Platform } = jest.requireMock<{ Platform: { OS: string } }>('react-native');
+    Platform.OS = 'android';
+    if (Constants.expoConfig) {
+      Constants.expoConfig.hostUri = '192.168.1.42:8081';
+    }
+    expect(resolveApiBaseUrl('http://localhost:3000')).toBe('http://192.168.1.42:3000');
+    if (Constants.expoConfig) {
+      Constants.expoConfig.hostUri = undefined;
+    }
+    Platform.OS = 'web';
+  });
+});
 
 describe('getAppConfig', () => {
   it('returns configured API base URL', () => {

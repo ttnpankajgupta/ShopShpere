@@ -6,6 +6,7 @@ describe('Environment validation', () => {
     DATABASE_URL: 'postgresql://user:pass@localhost:5432/db',
     REDIS_URL: 'redis://localhost:6379',
     CORS_ORIGINS: 'http://localhost:5173',
+    JWT_SECRET: 'test-secret-key-for-unit-tests-only',
   };
 
   it('accepts valid configuration', () => {

@@ -4,6 +4,8 @@ import { ProtectedRoute } from './auth/ProtectedRoute';
 import { AppLayout } from './layout/AppLayout';
 import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
+import { SessionExpiredPage } from './pages/SessionExpiredPage';
+import { UnauthorizedPage } from './pages/UnauthorizedPage';
 
 export function AppRouter() {
   return (
@@ -11,6 +13,8 @@ export function AppRouter() {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/session-expired" element={<SessionExpiredPage />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route
             path="/dashboard"
             element={

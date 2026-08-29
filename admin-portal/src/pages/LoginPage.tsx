@@ -4,7 +4,7 @@ import { useAuth } from '../auth/AuthContext';
 import { Button, Card, Input } from '../components/ui';
 
 export function LoginPage() {
-  const { login } = useAuth();
+  const { loginStub } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | undefined>();
@@ -15,7 +15,7 @@ export function LoginPage() {
       setError('Enter a valid email');
       return;
     }
-    login();
+    loginStub();
     navigate('/dashboard');
   };
 

@@ -6,8 +6,12 @@
     "orientation": "portrait",
     "scheme": "shopsphere",
     "platforms": ["ios", "android", "web"],
+    "android": {
+      "usesCleartextTraffic": true
+    },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "backgroundColor": "#0f172a"
     },
     "extra": {
       "apiBaseUrl": "http://localhost:3000"

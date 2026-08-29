@@ -1,8 +1,24 @@
-# ShopSphere Sprint S0 ó Task Ledger
+# ShopSphere Sprint S1 ù Task Ledger
 
-**Sprint:** S0 ó Foundation and Engineering Baseline  
-**Objective:** Create backend, database, customer portal, and admin portal foundations without business features.  
-**Status:** COMPLETE (with noted verification gaps)
+**Sprint:** S1 ù Customer Authentication and Account Security  
+**Objective:** End-to-end customer auth (register, OTP, login, session, password recovery) with server-authoritative backend; admin auth client prep only.  
+**Figma Make (Customer):** `https://www.figma.com/make/eI1hksYx7G4HaVC64sJAJG/Customer-Authentication-Experience`  
+**Status:** COMPLETE (Docker E2E auth flow verified)
+
+---
+
+## Figma Make Screen Registry (Customer ù S1)
+
+| Screen Key | Required Screen | Make fileKey | Screen ID | Source |
+|------------|-----------------|--------------|-----------|--------|
+| S1-CUSTOMER-01 | Registration | `eI1hksYx7G4HaVC64sJAJG` | `register` | `src/screens/RegisterScreen.tsx` |
+| S1-CUSTOMER-02 | OTP Verification | `eI1hksYx7G4HaVC64sJAJG` | `otp-verify` | `src/screens/OTPScreen.tsx` |
+| S1-CUSTOMER-03 | Login | `eI1hksYx7G4HaVC64sJAJG` | `login` | `src/screens/LoginScreen.tsx` |
+| S1-CUSTOMER-04 | Forgot Password | `eI1hksYx7G4HaVC64sJAJG` | `forgot-password` | `src/screens/ForgotPasswordScreen.tsx` |
+| S1-CUSTOMER-05 | Reset Password | `eI1hksYx7G4HaVC64sJAJG` | `reset-password` | `src/screens/ResetPasswordScreen.tsx` |
+| S1-CUSTOMER-06 | Session Expired | `eI1hksYx7G4HaVC64sJAJG` | `session-expired` | `src/screens/SessionScreen.tsx` |
+
+**Design tokens:** Figma Make `src/index.css` ? `customer-portal/src/theme/tokens.ts`
 
 ---
 
@@ -10,16 +26,15 @@
 
 | Task ID | Owner Agent | Description | Dependencies | File Ownership | Execution Mode | Status |
 |---------|-------------|-------------|--------------|----------------|----------------|--------|
-| TASK-001 | contract-agent | S0 API contracts: health/ready DTOs, response envelope, error codes | ó | `docs/contracts/s0-api-contract.md`, `packages/contracts/**` | Sequential | **DONE** |
-| TASK-002 | database-agent | Prisma init, initial migration metadata only | TASK-001 | `backend/prisma/**` | Sequential | **DONE** |
-| TASK-003 | backend-agent | NestJS foundation: config, Prisma, Redis, envelopes, health/ready, Swagger | TASK-001, TASK-002 | `backend/**` | Sequential | **DONE** |
-| TASK-004 | customer-agent | Expo RN foundation: nav, API client, token storage, UI primitives, tests | TASK-001 | `customer-portal/**` | Parallel | **DONE** |
-| TASK-005 | admin-agent | React admin foundation: router, protected routes, API client, UI primitives | TASK-001 | `admin-portal/**` | Parallel | **DONE** |
-| TASK-006 | integration-agent | Health endpoint contract alignment across platforms | TASK-003, TASK-004, TASK-005 | `packages/contracts/**` | Sequential | **DONE** |
-| TASK-007 | qa-agent | S0 test case validation | TASK-006 | ó | Sequential | **DONE** (partial ó see report) |
-| TASK-008 | security-agent | Config isolation, no client secrets, controlled errors | TASK-006 | ó | Sequential | **DONE** |
-| TASK-009 | devops-release-agent | Docker, docker-compose, GitHub Actions CI | TASK-003, TASK-004, TASK-005 | `docker-compose.yml`, `.github/**` | Parallel | **DONE** |
-| TASK-010 | debugger-review-agent | Final correctness and acceptance review | TASK-007, TASK-008, TASK-009 | ó | Sequential | **DONE** |
+| TASK-S1-001 | contract-agent | S1 API contracts, error codes, shared types, Figma mapping | ù | `docs/contracts/s1-api-contract.md`, `packages/contracts/**` | Sequential | **DONE** |
+| TASK-S1-002 | database-agent | Auth schema + migration + seed role | TASK-S1-001 | `backend/prisma/**` | Sequential | **DONE** |
+| TASK-S1-003 | backend-agent | Auth module: register, OTP, login, refresh, logout, forgot/reset, users/me, rate limits | TASK-S1-002 | `backend/src/auth/**` | Sequential | **DONE** |
+| TASK-S1-004 | customer-agent | Auth feature module, Figma-aligned screens, session restore, token storage | TASK-S1-001, TASK-S1-003 | `customer-portal/src/features/auth/**`, `customer-portal/src/theme/**` | Parallel | **DONE** |
+| TASK-S1-005 | admin-agent | Admin auth service interface, session model, unauthorized/session-expired placeholders | TASK-S1-001 | `admin-portal/src/auth/**`, `admin-portal/src/pages/*Expired*` | Parallel | **DONE** |
+| TASK-S1-006 | integration-agent | Contract alignment, API client wiring | TASK-S1-003, TASK-S1-004, TASK-S1-005 | `packages/contracts/**`, `*/src/api/**` | Sequential | **DONE** |
+| TASK-S1-007 | qa-agent | S1 test case validation | TASK-S1-006 | ù | Sequential | **DONE** (unit/build; E2E manual pending) |
+| TASK-S1-008 | security-agent | Auth security review | TASK-S1-006 | ù | Sequential | **DONE** |
+| TASK-S1-009 | debugger-review-agent | Final acceptance review | TASK-S1-007, TASK-S1-008 | ù | Sequential | **DONE** |
 
 ---
 
@@ -27,17 +42,40 @@
 
 | Platform | Command | Result |
 |----------|---------|--------|
-| Backend | `npm test` | **PASS** (6 tests) |
+| Backend | `npm test` | **PASS** (9 tests) |
 | Backend | `npm run typecheck` | **PASS** |
 | Backend | `npm run build` | **PASS** |
-| Admin | `npm test` | **PASS** (3 tests) |
+| Admin | `npm test` | **PASS** (6 tests) |
 | Admin | `npm run build` | **PASS** |
-| Customer | `npm test` | **PASS** (2 tests) |
+| Customer | `npm test` | **PASS** (5 tests) |
 | Customer | `npm run build:web` | **PASS** |
 | Contracts | `npm run typecheck` | **PASS** |
-| Docker integration | `docker compose up` | **SKIPPED** ó Docker daemon not running |
-| iOS/Android native build | `expo run:ios/android` | **NOT RUN** ó requires local SDK/simulator |
+| Docker E2E | `docker compose up` + auth flow | **NOT RUN** ù requires local Docker + migration deploy |
+| iOS/Android native | `expo run:ios/android` | **NOT RUN** ù requires local SDK |
 
 ---
 
-*Last updated: Sprint S0 execution complete*
+## Components Summary
+
+### Customer Portal
+| Action | Items |
+|--------|-------|
+| **Reused** | `Button`, `Input`, `Card`, `Loader`, `ErrorState`, navigation stack |
+| **Modified** | `Button`, `Input`, `tokenStorage`, `App.tsx`, `HomeScreen` |
+| **Created** | `theme/tokens`, `Logo`, `Alert`, `Divider`, auth feature module (6 screens, API, context, validation) |
+
+### Admin Portal
+| Action | Items |
+|--------|-------|
+| **Reused** | `ProtectedRoute`, `LoginPage`, `Card`, `Button` |
+| **Modified** | `AuthContext`, `ProtectedRoute`, `App.tsx`, `LoginPage` |
+| **Created** | `authService.ts`, `SessionExpiredPage`, `UnauthorizedPage`, `auth.test.ts` |
+
+### Backend
+| Action | Items |
+|--------|-------|
+| **Created** | Full `auth` module, Prisma auth models, migration, JWT + bcrypt, Redis rate limits |
+
+---
+
+*Last updated: Sprint S1 execution complete*

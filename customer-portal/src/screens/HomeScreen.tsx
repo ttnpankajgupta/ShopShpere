@@ -1,60 +1,29 @@
-import { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { getHealth } from '../api/client';
-import { ApiClientError, ApiTimeoutError } from '../api/types';
-import { Button, Card, ErrorState, Loader } from '../components';
+import { Button, Card } from '../components';
+import { colors, spacing, typography } from '../theme/tokens';
+import { useAuth } from '../features/auth/AuthContext';
 
 export function HomeScreen() {
-  const [loading, setLoading] = useState(true);
-  const [healthStatus, setHealthStatus] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const checkHealth = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getHealth();
-      setHealthStatus(`${data.service}: ${data.status}`);
-    } catch (err) {
-      if (err instanceof ApiTimeoutError) {
-        setError('Request timed out. Please try again.');
-      } else if (err instanceof ApiClientError) {
-        setError(err.message);
-      } else {
-        setError('Unable to reach the server.');
-      }
-      setHealthStatus(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    void checkHealth();
-  }, [checkHealth]);
-
-  if (loading) {
-    return <Loader />;
-  }
+  const { user, signOut } = useAuth();
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>ShopSphere</Text>
       <Card>
-        {error ? (
-          <ErrorState message={error} onRetry={checkHealth} />
-        ) : (
-          <Text style={styles.status}>Backend health: {healthStatus}</Text>
-        )}
-        <Button title="Refresh health" onPress={checkHealth} style={styles.button} />
+        <Text style={styles.greeting}>
+          Welcome{user?.firstName ? `, ${user.firstName}` : ''}!
+        </Text>
+        <Text style={styles.email}>{user?.email}</Text>
+        <Button title="Sign out" onPress={() => void signOut()} variant="secondary" style={styles.button} />
       </Card>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, backgroundColor: '#f9fafb' },
-  heading: { fontSize: 28, fontWeight: '700', marginBottom: 16 },
-  status: { marginBottom: 12, fontSize: 16 },
-  button: { marginTop: 8 },
+  container: { flex: 1, padding: spacing.xl, backgroundColor: colors.surface },
+  heading: { ...typography.title, color: colors.navy, marginBottom: spacing.lg },
+  greeting: { fontSize: 18, fontWeight: '600', marginBottom: spacing.xs, color: colors.navy },
+  email: { color: colors.muted, marginBottom: spacing.lg },
+  button: { marginTop: spacing.sm },
 });

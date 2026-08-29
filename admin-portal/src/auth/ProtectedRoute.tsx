@@ -7,10 +7,14 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isAuthenticated } = useAuth();
+  const { status } = useAuth();
   const location = useLocation();
 
-  if (!isAuthenticated) {
+  if (status === 'session_expired') {
+    return <Navigate to="/session-expired" replace />;
+  }
+
+  if (status !== 'authenticated') {
     return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   }
 

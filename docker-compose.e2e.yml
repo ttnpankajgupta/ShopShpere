@@ -1,0 +1,5 @@
+# E2E override — maps backend to 3001 when local dev already uses 3000
+services:
+  backend:
+    ports: !override
+      - "3001:3000"
